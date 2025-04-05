@@ -20,7 +20,6 @@ export default function NewsPage() {
 
   useEffect(() => {
     if (swiperInstance) {
-      // Re-attach navigation when swiper is ready
       swiperInstance.params.navigation.prevEl = "#id-prev";
       swiperInstance.params.navigation.nextEl = "#id-next";
       swiperInstance.navigation.init();
@@ -32,6 +31,7 @@ export default function NewsPage() {
     <>
       <Header />
       <div className={styles.wrapper}>
+        <p className={styles.heading}>Top Headlines</p>
         <Swiper
           modules={[Navigation]}
           spaceBetween={25}
@@ -69,7 +69,6 @@ export default function NewsPage() {
           ))}
         </Swiper>
 
-        {/* Navigation buttons */}
         <div
           id="id-prev"
           className={`${styles.navButton} ${styles.prev} ${!canSlidePrev ? styles.disabled : ""}`}
