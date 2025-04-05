@@ -1,95 +1,88 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
 
-export default function Home() {
+import Header from "./components/header/header";
+import { useGetNewsQuery } from "./core/newsSlice";
+import CustomCard from "./components/custom-card/customCard";
+import "swiper/css";
+import "swiper/css/navigation";
+
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SvgArrow from "./components/Svg/SvgArrow";
+import { useEffect, useState } from "react";
+import styles from "./styles/page.module.scss";
+
+export default function NewsPage() {
+  const { data } = useGetNewsQuery();
+  const [canSlidePrev, setCanSlidePrev] = useState(false);
+  const [canSlideNext, setCanSlideNext] = useState(true);
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+
+  useEffect(() => {
+    if (swiperInstance) {
+      // Re-attach navigation when swiper is ready
+      swiperInstance.params.navigation.prevEl = "#id-prev";
+      swiperInstance.params.navigation.nextEl = "#id-next";
+      swiperInstance.navigation.init();
+      swiperInstance.navigation.update();
+    }
+  }, [swiperInstance]);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Header />
+      <div className={styles.wrapper}>
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={25}
+          slidesPerView={4}
+          breakpoints={{
+            280: { slidesPerView: 1 },
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 2 },
+            1340: { slidesPerView: 4 },
+          }}
+          speed={500}
+          keyboard={{ enabled: true }}
+          pagination={{ clickable: true }}
+          navigation={{
+            prevEl: "#id-prev",
+            nextEl: "#id-next",
+          }}
+          onSwiper={setSwiperInstance}
+          onSlideChange={(swiper) => {
+            setCanSlidePrev(!swiper.isBeginning);
+            setCanSlideNext(!swiper.isEnd);
+          }}
+          className={styles.swiper}
+        >
+          {data?.articles?.map((item, index) => (
+            <SwiperSlide key={index}>
+              <CustomCard
+                id={item?.source?.id}
+                title={item?.title}
+                author={item?.author}
+                description={item?.description}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+        {/* Navigation buttons */}
+        <div
+          id="id-prev"
+          className={`${styles.navButton} ${styles.prev} ${!canSlidePrev ? styles.disabled : ""}`}
+        >
+          <SvgArrow direction="left" />
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div
+          id="id-next"
+          className={`${styles.navButton} ${styles.next} ${!canSlideNext ? styles.disabled : ""}`}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <SvgArrow direction="right" />
+        </div>
+      </div>
+    </>
   );
 }
