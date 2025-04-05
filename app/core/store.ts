@@ -1,11 +1,15 @@
-// /store/store.ts
-import { configureStore } from "@reduxjs/toolkit";
-import { newsSlice } from "./newsSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { allNewsApi } from './allNewsSlice';
+import { topHeadlines } from './topHeadlines';
 
 export const store = configureStore({
   reducer: {
-    [newsSlice.reducerPath]: newsSlice.reducer,
+    [allNewsApi.reducerPath]: allNewsApi.reducer,
+    [topHeadlines.reducerPath]: topHeadlines.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(newsSlice.middleware),
+    getDefaultMiddleware().concat(
+      allNewsApi.middleware,
+      topHeadlines.middleware
+    ),
 });

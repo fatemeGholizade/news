@@ -1,7 +1,7 @@
 'use client'
 
 import Header from "./components/header/header";
-import { useGetNewsQuery } from "./core/newsSlice";
+import { useGetNewsQuery } from "./core/topHeadlines";
 import CustomCard from "./components/custom-card/customCard";
 import "swiper/css";
 import "swiper/css/navigation";
