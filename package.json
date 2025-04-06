@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "prettier:format": "prettier --write .",
     "lint": "next lint",
-    "prettier:format": "prettier --write ."
+    "eslint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.1",

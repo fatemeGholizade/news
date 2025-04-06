@@ -12,7 +12,16 @@ export default function CustomCard({
 }: CardProps) {
   return (
     <div className={styles.card}>
-      <Image loading="lazy" src={image || ""} alt={"image"} />
+      {image !== null && (
+        <Image
+          width="290"
+          height="200"
+          className={styles.image}
+          loading="lazy"
+          src={image}
+          alt={"image"}
+        />
+      )}
       <p className={styles.title}>{title}</p>
       <p className={styles.author}>{author}</p>
       <p className={styles.description}>{description}</p>
