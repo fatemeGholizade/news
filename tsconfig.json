@@ -19,13 +19,6 @@
       }
     ],
     "baseUrl": ".",
-    "paths": {
-      "@/components/*": ["app/components/*"],
-      "@/assets/*": ["app/assets/*"],
-      "@/core/*": ["app/core/*"],
-      "@/styles/*": ["app/styles/*"],
-      "@/types/*": ["app/types/*"],
-    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

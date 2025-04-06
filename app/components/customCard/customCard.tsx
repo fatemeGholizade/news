@@ -1,7 +1,7 @@
 "use client";
 
-import { CardProps } from "@/components/customCard/types/card";
-import styles from "@/components/customCard/customCard.module.scss";
+import { CardProps } from "app/components/customCard/types/card";
+import styles from "app/components/customCard/customCard.module.scss";
 
 export default function CustomCard({
   title,
