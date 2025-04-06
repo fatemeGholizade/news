@@ -17,4 +17,6 @@ export interface IArticle {
     totalResults: number;
     articles: IArticle[];
   }
-  
+  export interface IArticleState {
+    selectedArticle: IArticle | null;
+  }

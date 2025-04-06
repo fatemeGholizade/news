@@ -7,7 +7,7 @@ export const allNewsApi = createApi({
   endpoints: (builder) => ({
     getAllNews: builder.query<INewsApiResponse,  { title:string }>({
       query: ({title}) =>
-        `everything?q=${title}&searchIn=title&apiKey=7197d2699fed4d659b2b5c41fd78702d`,
+        `everything?q=${title}&searchIn=title&apiKey=3deed6fe4fa0491281693376d3234bdf`,
     }),
   }),
 });

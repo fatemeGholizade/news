@@ -6,7 +6,7 @@ export const topHeadlines = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://newsapi.org/v2/' }),
   endpoints: (builder) => ({
     getNews: builder.query<INewsApiResponse, void>({
-      query: () => `top-headlines?country=us&apiKey=7197d2699fed4d659b2b5c41fd78702d`,
+      query: () => `top-headlines?country=us&apiKey=3deed6fe4fa0491281693376d3234bdf`,
     }),
   }),
 });

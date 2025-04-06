@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(206, 205, 205);
+  border-radius: 8px;
+  padding: 10px;
+  background-color: rgb(241, 235, 227);
+  .image{
+    border-radius: 8px;
+  }
+}
