@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import styles from './searchInput.module.scss';
-import { useGetAllNewsQuery } from '@/app/core/allNewsSlice';
 import Link from 'next/link';
-import { IArticle } from '@/app/types/news';
 import { useRouter } from 'next/navigation'
-
-interface Article {
-  title: string;
-}
+import { useGetAllNewsQuery } from '@/app/core/allNewsSlice';
 
 const SearchInput: React.FC = () => {
   const [query, setQuery] = useState('');
-  const [filteredTitles, setFilteredTitles] = useState<IArticle[]>([]);
   const router = useRouter()
 
-  const { data } = useGetAllNewsQuery();
+  const { data } = useGetAllNewsQuery({title:query});
 
   const formik = useFormik({
     initialValues: { searchQuery: '' },
@@ -30,8 +24,8 @@ const SearchInput: React.FC = () => {
       return errors;
     },
     onSubmit: () => {
-        if(filteredTitles?.length > 0){
-            router.push(`/${filteredTitles[0]?.title}`)
+        if(data?.articles && data?.articles?.length > 0){
+            router.push(`/${data?.articles[0]?.title}`)
 
         }
     },
@@ -40,17 +34,6 @@ const SearchInput: React.FC = () => {
   useEffect(() => {
     setQuery(formik.values.searchQuery);
   }, [formik.values.searchQuery]);
-  useEffect(() => {
-    if (data && query.length > 0) {
-      const filtered = data.articles
-        .filter((article: Article) =>
-          article.title.toLowerCase().includes(query.toLowerCase())
-        );
-      setFilteredTitles(filtered);  
-    } else {
-      setFilteredTitles([]);  
-    }
-  }, [query, data]);
   
   return (
     <div className={styles.searchWrapper}>
@@ -64,24 +47,26 @@ const SearchInput: React.FC = () => {
           onBlur={formik.handleBlur}
           placeholder="Search..."
         />
-        {formik.errors.searchQuery && formik.touched.searchQuery && (
+        {formik.errors.searchQuery !== undefined && formik.touched.searchQuery !== undefined  && 
           <div className={styles.error}>{formik.errors.searchQuery}</div>
-        )}
+        }
       </form>
 
-      {query && filteredTitles.length > 0 && (
+      {query !== null && data?.articles && data?.articles.length > 0 && (
         <ul className={styles.suggestionsDropdown}>
-          {filteredTitles.map((item, index) => (
-            <Link href={`${item?.source?.id}`}>
-            <li
-              key={index}
-              className={styles.suggestionItem}
-            >
-              {item?.title}
-            </li>
-            </Link>
+          {data?.articles.map((item, index) => {
+            return (
+              <Link href={`${item?.source?.id}`}>
+                <li
+                  key={index}
+                  className={styles.suggestionItem}
+                >
+                  {item?.title}
+                </li>
+              </Link>
 
-          ))}
+            );
+          })}
         </ul>
       )}
     </div>
