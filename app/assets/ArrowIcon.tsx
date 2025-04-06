@@ -1,13 +1,13 @@
 import type { SVGProps } from "react";
 
-interface ISvgProps extends SVGProps<SVGSVGElement> {
+interface SvgProps extends SVGProps<SVGSVGElement> {
   width?: number | string;
   height?: number | string;
   color?: string;
   className?: string;
 }
 
-const SvgArrow: React.FC<ISvgProps> = ({
+const ArrowIcon: React.FC<SvgProps> = ({
   width = 12,
   height = 12,
   color = "#475467",
@@ -33,4 +33,4 @@ const SvgArrow: React.FC<ISvgProps> = ({
     />
   </svg>
 );
-export default SvgArrow;
+export default ArrowIcon;

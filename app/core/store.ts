@@ -1,6 +1,5 @@
-// /store/store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import { newsSlice } from "./newsSlice";
+import { newsSlice } from "@/core/newsSlice";
 
 export const store = configureStore({
   reducer: {

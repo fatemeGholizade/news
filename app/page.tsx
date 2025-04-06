@@ -1,22 +1,21 @@
 'use client'
 
-import Header from "./components/header/header";
-import { useGetNewsQuery } from "./core/newsSlice";
-import CustomCard from "./components/custom-card/customCard";
+import { useEffect, useState } from "react";
+import Header from "@/components/header/header";
+import CustomCard from "@/components/customCard/customCard";
+import ArrowIcon from "@/assets/ArrowIcon";
+import { useGetNewsQuery } from "@/core/newsSlice";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import styles from "@/styles/page.module.scss";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SvgArrow from "./components/Svg/SvgArrow";
-import { useEffect, useState } from "react";
-import styles from "./styles/page.module.scss";
-
 export default function NewsPage() {
   const { data } = useGetNewsQuery();
-  const [canSlidePrev, setCanSlidePrev] = useState(false);
-  const [canSlideNext, setCanSlideNext] = useState(true);
-  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+  const [canSlidePrev, setCanSlidePrev] = useState<boolean>(false);
+  const [canSlideNext, setCanSlideNext] = useState<boolean>(true);
+  const [swiperInstance, setSwiperInstance] = useState<Swipper>();
 
   useEffect(() => {
     if (swiperInstance) {
@@ -50,20 +49,19 @@ export default function NewsPage() {
             prevEl: "#id-prev",
             nextEl: "#id-next",
           }}
-          onSwiper={setSwiperInstance}
+          onSwiper={() => setSwiperInstance}
           onSlideChange={(swiper) => {
             setCanSlidePrev(!swiper.isBeginning);
             setCanSlideNext(!swiper.isEnd);
           }}
-          className={styles.swiper}
         >
           {data?.articles?.map((item, index) => (
             <SwiperSlide key={index}>
               <CustomCard
-                id={item?.source?.id}
                 title={item?.title}
                 author={item?.author}
                 description={item?.description}
+                image = {item?.urlToImage}
               />
             </SwiperSlide>
           ))}
@@ -73,15 +71,16 @@ export default function NewsPage() {
           id="id-prev"
           className={`${styles.navButton} ${styles.prev} ${!canSlidePrev ? styles.disabled : ""}`}
         >
-          <SvgArrow direction="left" />
+          <ArrowIcon direction="left" />
         </div>
         <div
           id="id-next"
           className={`${styles.navButton} ${styles.next} ${!canSlideNext ? styles.disabled : ""}`}
         >
-          <SvgArrow direction="right" />
+          <ArrowIcon direction="right" />
         </div>
       </div>
+      
     </>
   );
 }
