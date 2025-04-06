@@ -1,9 +1,3 @@
-
 export default function IndividualNews() {
-    return (
-      <div>dsd
-          
-      </div>
-    );
-  }
-  
+  return <div>dsd</div>;
+}

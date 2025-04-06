@@ -1,7 +1,7 @@
 .swiper-button-next:after {
-    display: none;
-  }
-  
-  .swiper-button-prev:after {
-    display: none;
-  }
+  display: none;
+}
+
+.swiper-button-prev:after {
+  display: none;
+}

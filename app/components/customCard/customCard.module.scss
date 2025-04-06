@@ -1,30 +1,27 @@
 .card {
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    background-color: aliceblue;
-    height: 20rem;
-    .title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-    .author {
-      font-size: 0.875rem;
-      color: #555;
-    }
-    .description {
-      font-size: 0.875rem;
-      color: #333;
-      text-overflow: ellipsis;
-      overflow: hidden; 
-      width: 17rem; 
-      height: 1.2em; 
-      white-space: nowrap;
-    }
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  background-color: aliceblue;
+  height: 20rem;
+  .title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
   }
-  
-
-  
+  .author {
+    font-size: 0.875rem;
+    color: #555;
+  }
+  .description {
+    font-size: 0.875rem;
+    color: #333;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 17rem;
+    height: 1.2em;
+    white-space: nowrap;
+  }
+}

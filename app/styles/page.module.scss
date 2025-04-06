@@ -19,14 +19,14 @@
     justify-content: center;
     cursor: pointer;
   }
-  
+
   .next {
-    right: 1rem; 
+    right: 1rem;
     margin-top: 2rem;
   }
-  
+
   .prev {
-    left: 2rem; 
+    left: 2rem;
     rotate: 180deg;
   }
 
@@ -35,5 +35,3 @@
     pointer-events: none;
   }
 }
-
-

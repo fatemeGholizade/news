@@ -1,13 +1,12 @@
 interface Swipper {
+  navigation: {
+    init: () => void;
+    update: () => void;
+  };
+  params: {
     navigation: {
-        init : () => void;
-        update: () => void;
+      nextEl: string;
+      prevEl: string;
     };
-    params:{
-        navigation:{
-            nextEl: string;
-            prevEl: string
-        }
-
-    }
+  };
 }

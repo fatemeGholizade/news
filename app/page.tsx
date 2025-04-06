@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Key, useEffect, useState } from "react";
 import Header from "app/components/header/header";
@@ -6,6 +6,7 @@ import CustomCard from "app/components/customCard/customCard";
 import ArrowIcon from "app/assets/ArrowIcon";
 import { useGetNewsQuery } from "app/core/newsSlice";
 import { Navigation } from "swiper/modules";
+import { Article } from "./types/news";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "app/styles/page.module.scss";
 import "swiper/css";
@@ -55,16 +56,18 @@ export default function NewsPage() {
             setCanSlideNext(!swiper.isEnd);
           }}
         >
-          {data?.articles?.map((item: { title: string; author: string; description: string; urlToImage: string; }, index: Key | null | undefined) => (
-            <SwiperSlide key={index}>
-              <CustomCard
-                title={item?.title}
-                author={item?.author}
-                description={item?.description}
-                image = {item?.urlToImage}
-              />
-            </SwiperSlide>
-          ))}
+          {data?.articles?.map(
+            (item: Article, index: Key | null | undefined) => (
+              <SwiperSlide key={index}>
+                <CustomCard
+                  title={item?.title}
+                  author={item?.author}
+                  description={item?.description}
+                  image={item?.urlToImage}
+                />
+              </SwiperSlide>
+            ),
+          )}
         </Swiper>
 
         <div
@@ -80,7 +83,6 @@ export default function NewsPage() {
           <ArrowIcon direction="right" />
         </div>
       </div>
-      
     </>
   );
 }

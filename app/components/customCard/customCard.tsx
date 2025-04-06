@@ -2,6 +2,7 @@
 
 import { CardProps } from "app/components/customCard/types/card";
 import styles from "app/components/customCard/customCard.module.scss";
+import Image from "next/image";
 
 export default function CustomCard({
   title,
@@ -11,7 +12,7 @@ export default function CustomCard({
 }: CardProps) {
   return (
     <div className={styles.card}>
-      <img loading="lazy" src={image || ""} />
+      <Image loading="lazy" src={image || ""} alt={"image"} />
       <p className={styles.title}>{title}</p>
       <p className={styles.author}>{author}</p>
       <p className={styles.description}>{description}</p>
