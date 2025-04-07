@@ -12,7 +12,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "app/styles/page.module.scss";
 import "swiper/css";
 import "swiper/css/navigation";
-import { PAGE_SIZE } from "app/core/constant";
+import { PAGE_SIZE } from "app/core/constants";
 
 export default function NewsPage() {
   const { data } = useGetTopHeadlinesQuery();
@@ -53,7 +53,7 @@ export default function NewsPage() {
       if (currentRef) observer.unobserve(currentRef);
     };
   }, [isFetching]);
-  
+
   useEffect(() => {
     if (swiperInstance) {
       swiperInstance.params.navigation.prevEl = "#id-prev";
@@ -123,9 +123,8 @@ export default function NewsPage() {
         <p className={styles.heading}>All News</p>
         <div className={styles.news_card_container}>
           {newsList.map((item: Article, index: number) => (
-            <div className={styles.news_card}>
+            <div key={index} className={styles.news_card}>
               <CustomCard
-                key={index}
                 title={item?.title}
                 author={item?.author}
                 description={item?.description}
