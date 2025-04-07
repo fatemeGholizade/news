@@ -1,22 +1,58 @@
 "use client";
 
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 import Header from "app/components/header/header";
 import CustomCard from "app/components/customCard/customCard";
 import ArrowIcon from "app/assets/ArrowIcon";
-import { useGetNewsQuery } from "app/core/newsSlice";
+import { useGetTopHeadlinesQuery } from "app/core/topHeadlineSlice";
+import { useGetAllNewsQuery } from "app/core/allNewsSlice";
 import { Navigation } from "swiper/modules";
-import { Article } from "./types/news";
+import { Article } from "app/types/news";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "app/styles/page.module.scss";
 import "swiper/css";
 import "swiper/css/navigation";
+import { PAGE_SIZE } from "app/core/constants";
 
 export default function NewsPage() {
-  const { data } = useGetNewsQuery();
+  const { data } = useGetTopHeadlinesQuery();
   const [canSlidePrev, setCanSlidePrev] = useState<boolean>(false);
   const [canSlideNext, setCanSlideNext] = useState<boolean>(true);
   const [swiperInstance, setSwiperInstance] = useState<Swipper>();
+
+  const [page, setPage] = useState(1);
+  const [newsList, setNewsList] = useState<Article[]>([]);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const { data: allNewsData, isFetching } = useGetAllNewsQuery({
+    page,
+    pageSize: PAGE_SIZE,
+  });
+
+  useEffect(() => {
+    if (allNewsData?.articles.length) {
+      setNewsList((prev) => [...prev, ...allNewsData?.articles]);
+    }
+  }, [allNewsData]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !isFetching) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      { threshold: 1 },
+    );
+
+    const currentRef = observerRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [isFetching]);
 
   useEffect(() => {
     if (swiperInstance) {
@@ -82,6 +118,25 @@ export default function NewsPage() {
         >
           <ArrowIcon direction="right" />
         </div>
+      </div>
+      <div className={styles.all_news_section}>
+        <p className={styles.heading}>All News</p>
+        <div className={styles.news_card_container}>
+          {newsList.map((item: Article, index: number) => (
+            <div key={index} className={styles.news_card}>
+              <CustomCard
+                title={item?.title}
+                author={item?.author}
+                description={item?.description}
+                image={item?.urlToImage}
+              />
+            </div>
+          ))}
+        </div>
+        <div ref={observerRef} style={{ height: 50 }} />
+        {isFetching && (
+          <p className={styles.loadingText}>Loading more news...</p>
+        )}
       </div>
     </>
   );
