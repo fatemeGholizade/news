@@ -20,17 +20,14 @@ export default function NewsPage() {
   const [canSlideNext, setCanSlideNext] = useState<boolean>(true);
   const [swiperInstance, setSwiperInstance] = useState<Swipper>();
 
-
   const [page, setPage] = useState(1);
   const [newsList, setNewsList] = useState<Article[]>([]);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-
-  const {
-    data: allNewsData,
-    isFetching,
-  } = useGetAllNewsQuery({ page, pageSize:PAGE_SIZE });
-  
+  const { data: allNewsData, isFetching } = useGetAllNewsQuery({
+    page,
+    pageSize: PAGE_SIZE,
+  });
 
   useEffect(() => {
     if (allNewsData?.articles.length) {
@@ -46,7 +43,7 @@ export default function NewsPage() {
           setPage((prev) => prev + 1);
         }
       },
-      { threshold: 1 }
+      { threshold: 1 },
     );
 
     const currentRef = observerRef.current;
@@ -56,6 +53,7 @@ export default function NewsPage() {
       if (currentRef) observer.unobserve(currentRef);
     };
   }, [isFetching]);
+  
   useEffect(() => {
     if (swiperInstance) {
       swiperInstance.params.navigation.prevEl = "#id-prev";
@@ -122,22 +120,25 @@ export default function NewsPage() {
         </div>
       </div>
       <div className={styles.all_news_section}>
-          <p className={styles.heading}>All News</p>
-          <div className={styles.news_card_container}>
-            {newsList.map((item: Article, index: number) => (
-          <div className={styles.news_card}>
+        <p className={styles.heading}>All News</p>
+        <div className={styles.news_card_container}>
+          {newsList.map((item: Article, index: number) => (
+            <div className={styles.news_card}>
               <CustomCard
-                  key={index}
-                  title={item?.title}
-                  author={item?.author}
-                  description={item?.description}
-                  image={item?.urlToImage}
-                  />   
-                  </div>         ))}
-                  </div>    
-          <div ref={observerRef} style={{ height: 50 }} />
-          {isFetching && <p className={styles.loadingText}>Loading more news...</p>}
+                key={index}
+                title={item?.title}
+                author={item?.author}
+                description={item?.description}
+                image={item?.urlToImage}
+              />
+            </div>
+          ))}
         </div>
+        <div ref={observerRef} style={{ height: 50 }} />
+        {isFetching && (
+          <p className={styles.loadingText}>Loading more news...</p>
+        )}
+      </div>
     </>
   );
 }

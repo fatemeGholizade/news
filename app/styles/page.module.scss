@@ -31,24 +31,23 @@
     pointer-events: none;
   }
 }
-.all_news_section{
+.all_news_section {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   margin-top: 2rem;
-  gap:1rem;
-  .news_card_container{
+  gap: 1rem;
+  .news_card_container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    gap:0.5rem;
-    .news_card{
+    gap: 0.5rem;
+    .news_card {
       width: 24%;
       display: flex;
     }
   }
-
 }
 .heading {
   font-weight: bold;
