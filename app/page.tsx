@@ -29,6 +29,14 @@ export default function NewsPage() {
     pageSize: PAGE_SIZE,
   });
   useEffect(() => {
+    if (swiperInstance) {
+      swiperInstance.params.navigation.prevEl = "#id-prev";
+      swiperInstance.params.navigation.nextEl = "#id-next";
+      swiperInstance.navigation.init();
+      swiperInstance.navigation.update();
+    }
+  }, [swiperInstance]);
+  useEffect(() => {
     setHydrated(true);
   }, []);
 
@@ -61,14 +69,7 @@ export default function NewsPage() {
     return null;
   }
 
-  useEffect(() => {
-    if (swiperInstance) {
-      swiperInstance.params.navigation.prevEl = "#id-prev";
-      swiperInstance.params.navigation.nextEl = "#id-next";
-      swiperInstance.navigation.init();
-      swiperInstance.navigation.update();
-    }
-  }, [swiperInstance]);
+
 
   return (
     <>
