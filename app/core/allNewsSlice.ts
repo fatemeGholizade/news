@@ -26,5 +26,4 @@ export const allNewsSlice = createApi({
     }),
   }),
 });
-
-export const { useGetAllNewsQuery } = allNewsSlice;
+export const { useGetAllNewsQuery } = allNewsApi;
