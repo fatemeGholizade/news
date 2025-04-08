@@ -1,23 +1,37 @@
 "use client";
 
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 import Header from "app/components/header/header";
 import CustomCard from "app/components/customCard/customCard";
 import ArrowIcon from "app/assets/ArrowIcon";
-import { useGetNewsQuery } from "app/core/newsSlice";
+import { useGetAllNewsQuery } from "app/core/allNewsSlice";
 import { Navigation } from "swiper/modules";
-import { Article } from "./types/news";
+import { Article } from "app/types/news";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "app/styles/page.module.scss";
 import "swiper/css";
 import "swiper/css/navigation";
+import { PAGE_SIZE } from "app/core/constants";
+import { useGetTopHeadlinesQuery } from "app/core/topHeadlinesSlice";
 
 export default function NewsPage() {
-  const { data } = useGetNewsQuery();
+  const { data } = useGetTopHeadlinesQuery();
   const [canSlidePrev, setCanSlidePrev] = useState<boolean>(false);
   const [canSlideNext, setCanSlideNext] = useState<boolean>(true);
   const [swiperInstance, setSwiperInstance] = useState<Swipper>();
 
+  const [hydrated, setHydrated] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [newsList, setNewsList] = useState<Article[]>([]);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const { data: allNewsData, isFetching } = useGetAllNewsQuery({
+    page,
+    pageSize: PAGE_SIZE,
+  });
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
   useEffect(() => {
     if (swiperInstance) {
       swiperInstance.params.navigation.prevEl = "#id-prev";
@@ -27,11 +41,41 @@ export default function NewsPage() {
     }
   }, [swiperInstance]);
 
+  useEffect(() => {
+    if (allNewsData?.articles.length) {
+      setNewsList((prev) => [...prev, ...allNewsData?.articles]);
+    }
+  }, [allNewsData]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !isFetching) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      { threshold: 1 },
+    );
+
+    const currentRef = observerRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [isFetching]);
+
+  if (!hydrated) {
+    return null;
+  }
+
+
   return (
     <>
       <Header />
       <div className={styles.wrapper}>
-        <p className={styles.heading}>Top Headlines</p>
+        <h2 className={styles.heading}>Top Headlines</h2>
         <Swiper
           modules={[Navigation]}
           spaceBetween={25}
@@ -82,6 +126,26 @@ export default function NewsPage() {
         >
           <ArrowIcon direction="right" />
         </div>
+      </div>
+
+      <div className={styles.all_news_section}>
+        <h2 className={styles.heading}>All News</h2>
+        <div className={styles.news_card_container}>
+          {newsList.map((item: Article, index: number) => (
+            <div key={index} className={styles.news_card}>
+              <CustomCard
+                title={item?.title}
+                author={item?.author}
+                description={item?.description}
+                image={item?.urlToImage}
+              />
+            </div>
+          ))}
+        </div>
+        <div ref={observerRef} style={{ height: 50 }} />
+        {isFetching && (
+          <h2 className={styles.loadingText}>Loading more news...</h2>
+        )}
       </div>
     </>
   );
