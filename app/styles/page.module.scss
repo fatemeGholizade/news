@@ -1,10 +1,6 @@
 .wrapper {
   width: 100%;
   position: relative;
-  .heading {
-    font-weight: bold;
-    margin-left: 0.375rem;
-  }
   .navButton {
     position: absolute;
     top: 50%;
@@ -34,4 +30,26 @@
     opacity: 0.3;
     pointer-events: none;
   }
+}
+.all_news_section {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  margin-top: 2rem;
+  gap: 1rem;
+  .news_card_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+    .news_card {
+      width: 24%;
+      display: flex;
+    }
+  }
+}
+.heading {
+  font-weight: bold;
+  margin-left: 0.375rem;
 }
