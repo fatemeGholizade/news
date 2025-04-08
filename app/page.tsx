@@ -14,7 +14,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { PAGE_SIZE } from "app/core/constants";
 
-
 export default function NewsPage() {
   const { data } = useGetTopHeadlinesQuery();
   const [canSlidePrev, setCanSlidePrev] = useState<boolean>(false);
@@ -25,16 +24,16 @@ export default function NewsPage() {
   const [newsList, setNewsList] = useState<Article[]>([]);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const [hydrated, setHydrated] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(1);
-  const [newsList, setNewsList] = useState<Article[]>([]);
-  const observerRef = useRef<HTMLDivElement | null>(null);
-
-
   const { data: allNewsData, isFetching } = useGetAllNewsQuery({
     page,
     pageSize: PAGE_SIZE,
   });
+  useEffect(() => {
+    if (allNewsData?.articles.length) {
+      setNewsList((prev) => [...prev, ...allNewsData?.articles]);
+    }
+  }, [allNewsData]);
+
   useEffect(() => {
     if (swiperInstance) {
       swiperInstance.params.navigation.prevEl = "#id-prev";
@@ -43,14 +42,10 @@ export default function NewsPage() {
       swiperInstance.navigation.update();
     }
   }, [swiperInstance]);
+
   useEffect(() => {
     setHydrated(true);
   }, []);
-  useEffect(() => {
-    if (allNewsData?.articles.length) {
-      setNewsList((prev) => [...prev, ...allNewsData?.articles]);
-    }
-  }, [allNewsData]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,33 +69,6 @@ export default function NewsPage() {
   if (!hydrated) {
     return null;
   }
-
-
-
-  useEffect(() => {
-    if (allNewsData?.articles.length) {
-      setNewsList((prev) => [...prev, ...allNewsData?.articles]);
-    }
-  }, [allNewsData]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting && !isFetching) {
-          setPage((prev) => prev + 1);
-        }
-      },
-      { threshold: 1 },
-    );
-
-    const currentRef = observerRef.current;
-    if (currentRef) observer.observe(currentRef);
-
-    return () => {
-      if (currentRef) observer.unobserve(currentRef);
-    };
-  }, [isFetching]);
 
   if (!hydrated) {
     return null;
