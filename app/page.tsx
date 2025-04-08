@@ -19,8 +19,8 @@ export default function NewsPage() {
   const [canSlidePrev, setCanSlidePrev] = useState<boolean>(false);
   const [canSlideNext, setCanSlideNext] = useState<boolean>(true);
   const [swiperInstance, setSwiperInstance] = useState<Swipper>();
-
-  const [page, setPage] = useState(1);
+  const [hydrated, setHydrated] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
   const [newsList, setNewsList] = useState<Article[]>([]);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -28,6 +28,9 @@ export default function NewsPage() {
     page,
     pageSize: PAGE_SIZE,
   });
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (allNewsData?.articles.length) {
@@ -54,6 +57,10 @@ export default function NewsPage() {
     };
   }, [isFetching]);
 
+  if (!hydrated) {
+    return null;
+  }
+
   useEffect(() => {
     if (swiperInstance) {
       swiperInstance.params.navigation.prevEl = "#id-prev";
@@ -67,7 +74,7 @@ export default function NewsPage() {
     <>
       <Header />
       <div className={styles.wrapper}>
-        <p className={styles.heading}>Top Headlines</p>
+        <h2 className={styles.heading}>Top Headlines</h2>
         <Swiper
           modules={[Navigation]}
           spaceBetween={25}
@@ -120,7 +127,7 @@ export default function NewsPage() {
         </div>
       </div>
       <div className={styles.all_news_section}>
-        <p className={styles.heading}>All News</p>
+        <h2 className={styles.heading}>All News</h2>
         <div className={styles.news_card_container}>
           {newsList.map((item: Article, index: number) => (
             <div key={index} className={styles.news_card}>
@@ -135,7 +142,7 @@ export default function NewsPage() {
         </div>
         <div ref={observerRef} style={{ height: 50 }} />
         {isFetching && (
-          <p className={styles.loadingText}>Loading more news...</p>
+          <h2 className={styles.loadingText}>Loading more news...</h2>
         )}
       </div>
     </>
