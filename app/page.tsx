@@ -14,6 +14,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { PAGE_SIZE } from "app/core/constants";
 
+
 export default function NewsPage() {
   const { data } = useGetTopHeadlinesQuery();
   const [canSlidePrev, setCanSlidePrev] = useState<boolean>(false);
@@ -23,6 +24,12 @@ export default function NewsPage() {
   const [page, setPage] = useState<number>(1);
   const [newsList, setNewsList] = useState<Article[]>([]);
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const [hydrated, setHydrated] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [newsList, setNewsList] = useState<Article[]>([]);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
 
   const { data: allNewsData, isFetching } = useGetAllNewsQuery({
     page,
@@ -39,7 +46,6 @@ export default function NewsPage() {
   useEffect(() => {
     setHydrated(true);
   }, []);
-
   useEffect(() => {
     if (allNewsData?.articles.length) {
       setNewsList((prev) => [...prev, ...allNewsData?.articles]);
@@ -70,6 +76,35 @@ export default function NewsPage() {
   }
 
 
+
+  useEffect(() => {
+    if (allNewsData?.articles.length) {
+      setNewsList((prev) => [...prev, ...allNewsData?.articles]);
+    }
+  }, [allNewsData]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting && !isFetching) {
+          setPage((prev) => prev + 1);
+        }
+      },
+      { threshold: 1 },
+    );
+
+    const currentRef = observerRef.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [isFetching]);
+
+  if (!hydrated) {
+    return null;
+  }
 
   return (
     <>
