@@ -8,10 +8,21 @@ export const allNewsSlice = createApi({
   endpoints: (builder) => ({
     getAllNews: builder.query<
       NewsApiResponse,
-      { page: number; pageSize: number }
+      { page?: number | null; pageSize?: null | number; title?: string }
     >({
-      query: ({ page, pageSize }) =>
-        `everything?q=bitcoin&page=${page}&pageSize=${pageSize}&apiKey=${API_KEY}`,
+      query: ({ page, pageSize, title }) => {
+        let url = `everything?q=${title}&apiKey=${API_KEY}`;
+        // not to send unnecessary params but q without page/pagesize must have a value
+        if (page != null) {
+          url += `&page=${page}`;
+        }
+
+        if (pageSize != null) {
+          url += `&pageSize=${pageSize}`;
+        }
+
+        return url;
+      },
     }),
   }),
 });
