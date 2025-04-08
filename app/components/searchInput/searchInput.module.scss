@@ -10,12 +10,10 @@
     border-radius: 8px;
     outline: none;
     box-sizing: border-box;
-
     &:focus {
       border-color: #007bff;
     }
   }
-
   .suggestionsDropdown {
     position: absolute;
     top: 100%;
@@ -43,7 +41,6 @@
       }
     }
   }
-
   .error {
     color: red;
     font-size: 12px;

@@ -11,6 +11,7 @@ const SearchInput: React.FC = () => {
 
   const formik = useFormik({
     initialValues: { searchQuery: "" },
+    validateOnChange: true,
     validate: (values) => {
       const errors: { searchQuery?: string } = {};
       if (!/^[a-zA-Z\s]*$/.test(values.searchQuery)) {
@@ -49,7 +50,10 @@ const SearchInput: React.FC = () => {
           name="searchQuery"
           className={styles.searchInput}
           value={formik.values.searchQuery}
-          onChange={formik.handleChange}
+          onChange={(e) => {
+            formik.setFieldTouched("searchQuery", true);
+            formik.handleChange(e);
+          }}
           onBlur={formik.handleBlur}
           placeholder="Search..."
         />
