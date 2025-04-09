@@ -43,12 +43,12 @@ const SearchInput: React.FC = () => {
   }, [formik.values.searchQuery]);
 
   return (
-    <div className={styles.searchWrapper}>
+    <div className={styles.search_wrapper}>
       <form onSubmit={formik.handleSubmit}>
         <input
           type="text"
           name="searchQuery"
-          className={styles.searchInput}
+          className={styles.search_input}
           value={formik.values.searchQuery}
           onChange={(e) => {
             formik.setFieldTouched("searchQuery", true);
@@ -63,10 +63,10 @@ const SearchInput: React.FC = () => {
       </form>
 
       {data !== undefined && data?.articles?.length > 0 && (
-        <ul className={styles.suggestionsDropdown}>
+        <ul className={styles.suggestions_dropdown }>
           {data.articles.map((item, index) => (
             <>
-              <li className={styles.suggestionItem} key={index}>
+              <li className={styles.suggestion_item} key={index}>
                 <Link className={styles.link} href={`/${item.title}`}>
                   {item.title}
                 </Link>

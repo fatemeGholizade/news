@@ -1,8 +1,8 @@
-.searchWrapper {
+.search_wrapper {
   position: relative;
   width: 100%;
   max-width: 30rem;
-  .searchInput {
+  .search_input {
     width: 100%;
     padding: 1rem;
     font-size: 16px;
@@ -14,7 +14,7 @@
       border-color: #007bff;
     }
   }
-  .suggestionsDropdown {
+  .suggestions_dropdown {
     position: absolute;
     top: 100%;
     left: 0;
@@ -28,7 +28,7 @@
     max-height: 10rem;
     overflow-y: auto;
     z-index: 10;
-    .suggestionItem {
+    .suggestion_item {
       padding: 2rem;
       font-size: 14px;
       cursor: pointer;
