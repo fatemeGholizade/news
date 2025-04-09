@@ -4,11 +4,13 @@ import styles from "app/components/searchInput/searchInput.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGetAllNewsQuery } from "app/core/allNewsSlice";
+import { useDispatch } from "react-redux";
+import { setSelectedArticle } from 'app/core/articleSlice';
 
 const SearchInput: React.FC = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
-
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: { searchQuery: "" },
     validateOnChange: true,
@@ -25,6 +27,8 @@ const SearchInput: React.FC = () => {
     onSubmit: () => {
       if (data?.articles && data.articles.length > 0) {
         router.push(`/${data.articles[0].title}`);
+        dispatch(setSelectedArticle(data?.articles[0]))
+
       }
     },
   });
@@ -66,7 +70,8 @@ const SearchInput: React.FC = () => {
         <ul className={styles.suggestions_dropdown }>
           {data.articles.map((item, index) => (
             <>
-              <li className={styles.suggestion_item} key={index}>
+              <li className={styles.suggestion_item} key={index}                   onClick={() => dispatch(setSelectedArticle(item))}
+              >
                 <Link className={styles.link} href={`/${item.title}`}>
                   {item.title}
                 </Link>

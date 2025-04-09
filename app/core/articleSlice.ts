@@ -1,10 +1,10 @@
 // /app/core/articleSlice.ts
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IArticle } from '../types/news';
+import { Article } from 'app/types/news';
 
 interface ArticleState {
-  selectedArticle: IArticle | null;
+  selectedArticle: Article | null;
 }
 
 const initialState: ArticleState = {
@@ -15,7 +15,7 @@ const articleSlice = createSlice({
   name: 'article',
   initialState,
   reducers: {
-    setSelectedArticle(state, action: PayloadAction<IArticle>) {
+    setSelectedArticle(state, action: PayloadAction<Article>) {
       state.selectedArticle = action.payload;
     },
     clearSelectedArticle(state) {
