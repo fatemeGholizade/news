@@ -77,7 +77,7 @@ export default function NewsPage() {
   return (
     <>
       <Header />
-        <h2 className={styles.heading}>Top Headlines</h2>
+      <h2 className={styles.heading}>Top Headlines</h2>
       <div className={styles.wrapper}>
         <Swiper
           modules={[Navigation]}

@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { allNewsSlice } from 'app/core/allNewsSlice';
-import { topHeadlineSlice } from 'app/core/topHeadlinesSlice';
-import articleReducer from './articleSlice'; 
+import { configureStore } from "@reduxjs/toolkit";
+import { allNewsSlice } from "app/core/allNewsSlice";
+import { topHeadlineSlice } from "app/core/topHeadlinesSlice";
+import articleReducer from "./articleSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +12,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       allNewsSlice.middleware,
-      topHeadlineSlice.middleware
+      topHeadlineSlice.middleware,
     ),
 });
 

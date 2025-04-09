@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useGetAllNewsQuery } from "app/core/allNewsSlice";
 import { useDispatch } from "react-redux";
-import { setSelectedArticle } from 'app/core/articleSlice';
+import { setSelectedArticle } from "app/core/articleSlice";
 
 const SearchInput: React.FC = () => {
   const [query, setQuery] = useState("");
@@ -27,8 +27,7 @@ const SearchInput: React.FC = () => {
     onSubmit: () => {
       if (data?.articles && data.articles.length > 0) {
         router.push(`/${data.articles[0].title}`);
-        dispatch(setSelectedArticle(data?.articles[0]))
-
+        dispatch(setSelectedArticle(data?.articles[0]));
       }
     },
   });
@@ -67,10 +66,13 @@ const SearchInput: React.FC = () => {
       </form>
 
       {data !== undefined && data?.articles?.length > 0 && (
-        <ul className={styles.suggestions_dropdown }>
+        <ul className={styles.suggestions_dropdown}>
           {data.articles.map((item, index) => (
             <>
-              <li className={styles.suggestion_item} key={index}                   onClick={() => dispatch(setSelectedArticle(item))}
+              <li
+                className={styles.suggestion_item}
+                key={index}
+                onClick={() => dispatch(setSelectedArticle(item))}
               >
                 <Link className={styles.link} href={`/${item.title}`}>
                   {item.title}
