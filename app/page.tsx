@@ -4,7 +4,7 @@ import { Key, useEffect, useRef, useState } from "react";
 import Header from "app/components/header/header";
 import CustomCard from "app/components/customCard/customCard";
 import ArrowIcon from "app/assets/ArrowIcon";
-import { useGetTopHeadlinesQuery } from "app/core/topHeadlineSlice";
+import { useGetTopHeadlinesQuery } from "app/core/topHeadlinesSlice";
 import { useGetAllNewsQuery } from "app/core/allNewsSlice";
 import { Navigation } from "swiper/modules";
 import { Article } from "app/types/news";
@@ -77,8 +77,8 @@ export default function NewsPage() {
   return (
     <>
       <Header />
+      <h2 className={styles.heading}>Top Headlines</h2>
       <div className={styles.wrapper}>
-        <h2 className={styles.heading}>Top Headlines</h2>
         <Swiper
           modules={[Navigation]}
           spaceBetween={25}
@@ -119,13 +119,13 @@ export default function NewsPage() {
 
         <div
           id="id-prev"
-          className={`${styles.navButton} ${styles.prev} ${!canSlidePrev ? styles.disabled : ""}`}
+          className={`${styles.nav_button} ${styles.prev} ${!canSlidePrev ? styles.disabled : ""}`}
         >
           <ArrowIcon direction="left" />
         </div>
         <div
           id="id-next"
-          className={`${styles.navButton} ${styles.next} ${!canSlideNext ? styles.disabled : ""}`}
+          className={`${styles.nav_button} ${styles.next} ${!canSlideNext ? styles.disabled : ""}`}
         >
           <ArrowIcon direction="right" />
         </div>
