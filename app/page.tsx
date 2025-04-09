@@ -77,8 +77,8 @@ export default function NewsPage() {
   return (
     <>
       <Header />
-      <div className={styles.wrapper}>
         <h2 className={styles.heading}>Top Headlines</h2>
+      <div className={styles.wrapper}>
         <Swiper
           modules={[Navigation]}
           spaceBetween={25}
