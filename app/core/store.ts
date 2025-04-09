@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { allNewsSlice } from "app/core/allNewsSlice";
 import { topHeadlineSlice } from "app/core/topHeadlinesSlice";
-import articleReducer from "./articleSlice";
+import articleReducer from "app/core/articleSlice";
 
 export const store = configureStore({
   reducer: {
