@@ -1,2 +1,2 @@
-export const API_KEY = "b7dc3368c3754b528ab0e0866b077d17";
+export const API_KEY = "7197d2699fed4d659b2b5c41fd78702d";
 export const PAGE_SIZE = 10;

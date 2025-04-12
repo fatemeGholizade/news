@@ -1,5 +1,3 @@
-// /app/core/articleSlice.ts
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Article } from "app/types/news";
 

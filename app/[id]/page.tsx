@@ -9,17 +9,16 @@ export default function IndividualNews() {
   );
   return (
     <div className={styles.wrapper}>
-      {selectedArticle?.urlToImage !== null &&
-        selectedArticle?.urlToImage !== undefined && (
-          <Image
-            width="290"
-            height="200"
-            className={styles.image}
-            loading="lazy"
-            src={selectedArticle?.urlToImage}
-            alt={"image"}
-          />
-        )}{" "}
+      {selectedArticle?.urlToImage && (
+        <Image
+          width="290"
+          height="200"
+          className={styles.image}
+          loading="lazy"
+          src={selectedArticle?.urlToImage}
+          alt={"image"}
+        />
+      )}{" "}
       <h1>Title: {selectedArticle?.title}</h1>
       <h2>Author: {selectedArticle?.author}</h2>
       <p>description: {selectedArticle?.description}</p>

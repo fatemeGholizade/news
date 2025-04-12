@@ -68,10 +68,9 @@ const SearchInput: React.FC = () => {
       {data !== undefined && data?.articles?.length > 0 && (
         <ul className={styles.suggestions_dropdown}>
           {data.articles.map((item, index) => (
-            <>
+            <div key={index}>
               <li
                 className={styles.suggestion_item}
-                key={index}
                 onClick={() => dispatch(setSelectedArticle(item))}
               >
                 <Link className={styles.link} href={`/${item.title}`}>
@@ -79,7 +78,7 @@ const SearchInput: React.FC = () => {
                 </Link>
               </li>
               <hr />
-            </>
+            </div>
           ))}
         </ul>
       )}
